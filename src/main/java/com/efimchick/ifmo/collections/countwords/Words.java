@@ -10,7 +10,6 @@ public class Words {
     private static final int MIN_AMOUNT_WORDS = 10;
 
     public String countWords(List<String> lines) {
-        addCountedWords(lines);
         return addCountedWords(lines).toString();
     }
 
