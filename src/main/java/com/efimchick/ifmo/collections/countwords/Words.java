@@ -5,25 +5,25 @@ import java.util.Collections;
 import java.util.List;
 
 public class Words {
-    private final List<WordNode> WORD_NODES = new ArrayList<>();
-    private final StringBuilder STRING_NODES = new StringBuilder();
-    private final String REGEX = "\\P{javaLetter}+";
-    private final int MIN_LENGTH_WORD = 4;
-    private final int MIN_AMOUNT_WORDS = 10;
+    private static final String REGEX = "\\P{javaLetter}+";
+    private static final int MIN_LENGTH_WORD = 4;
+    private static final int MIN_AMOUNT_WORDS = 10;
 
     public String countWords(List<String> lines) {
         addCountedWords(lines);
-        return STRING_NODES.toString();
+        return addCountedWords(lines).toString();
     }
 
-    private void addCountedWords(List<String> lines) {
+    private StringBuilder addCountedWords(List<String> lines) {
         List<WordNode> wordNodes = getAllWordsWithAmount(lines);
+        StringBuilder stringNodes = new StringBuilder();
         wordNodes.sort(new ComparatorForWordNodes());
         for (WordNode wordNode : wordNodes) {
             if (isSmallOrRareWords(wordNode))
-                STRING_NODES.append(wordNode.toString());
+                stringNodes.append(wordNode.toString());
         }
-        STRING_NODES.deleteCharAt(STRING_NODES.length() - 1);
+        stringNodes.deleteCharAt(stringNodes.length() - 1);
+        return stringNodes;
     }
 
     private boolean isSmallOrRareWords(WordNode wordNode) {
@@ -31,6 +31,7 @@ public class Words {
     }
 
     private List<WordNode> getAllWordsWithAmount(List<String> lines) {
+        List<WordNode> allWordsWithAmount = new ArrayList<>();
         List<String> wordsList = getAllWords(lines);
         Collections.sort(wordsList);
         String comparableWord = wordsList.get(0);
@@ -39,13 +40,13 @@ public class Words {
             if (comparableWord.equals(word)) {
                 counter++;
             } else {
-                WORD_NODES.add(new WordNode(comparableWord, counter));
+                allWordsWithAmount.add(new WordNode(comparableWord, counter));
                 comparableWord = word;
                 counter = 1;
             }
         }
-        WORD_NODES.add(new WordNode(comparableWord, counter));
-        return WORD_NODES;
+        allWordsWithAmount.add(new WordNode(comparableWord, counter));
+        return allWordsWithAmount;
     }
 
     private List<String> getAllWords(List<String> lines) {
