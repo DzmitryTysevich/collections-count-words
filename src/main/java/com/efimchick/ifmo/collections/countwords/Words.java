@@ -10,10 +10,6 @@ public class Words {
     private static final int MIN_AMOUNT_WORDS = 10;
 
     public String countWords(List<String> lines) {
-        return addCountedWords(lines).toString();
-    }
-
-    private StringBuilder addCountedWords(List<String> lines) {
         List<WordNode> wordNodes = getAllWordsWithAmount(lines);
         StringBuilder stringNodes = new StringBuilder();
         wordNodes.sort(new ComparatorForWordNodes());
@@ -22,7 +18,7 @@ public class Words {
                 stringNodes.append(wordNode.toString());
         }
         stringNodes.deleteCharAt(stringNodes.length() - 1);
-        return stringNodes;
+        return stringNodes.toString();
     }
 
     private boolean isSmallOrRareWords(WordNode wordNode) {
